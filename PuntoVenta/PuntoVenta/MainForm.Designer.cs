@@ -27,7 +27,7 @@ namespace PuntoVenta
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button btnAgregar;
 		private System.Windows.Forms.Button btnGuardar;
-		private System.Windows.Forms.Button btnHistorial;
+		private System.Windows.Forms.Button btnRegresarAccion;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TextBox textBox3;
@@ -39,8 +39,8 @@ namespace PuntoVenta
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Button btnAumentar;
 		private System.Windows.Forms.Button btnDisminuir;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button btnGuardarVenta;
+		private System.Windows.Forms.Button btnAbrirVenta;
 		private System.Windows.Forms.TextBox txtSubtotal;
 		private System.Windows.Forms.TextBox txtIva;
 		private System.Windows.Forms.TextBox txtTotal;
@@ -99,7 +99,7 @@ namespace PuntoVenta
 			this.txtCodigoBarra = new System.Windows.Forms.TextBox();
 			this.btnAgregar = new System.Windows.Forms.Button();
 			this.btnGuardar = new System.Windows.Forms.Button();
-			this.btnHistorial = new System.Windows.Forms.Button();
+			this.btnRegresarAccion = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.txtSubtotal = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -113,8 +113,8 @@ namespace PuntoVenta
 			this.btnCorte = new System.Windows.Forms.Button();
 			this.btnAumentar = new System.Windows.Forms.Button();
 			this.btnDisminuir = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.btnGuardarVenta = new System.Windows.Forms.Button();
+			this.btnAbrirVenta = new System.Windows.Forms.Button();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.txtPago = new System.Windows.Forms.TextBox();
@@ -300,16 +300,17 @@ namespace PuntoVenta
 			this.btnGuardar.UseVisualStyleBackColor = true;
 			this.btnGuardar.Click += new System.EventHandler(this.BtnGuardarClick);
 			// 
-			// btnHistorial
+			// btnRegresarAccion
 			// 
-			this.btnHistorial.Cursor = System.Windows.Forms.Cursors.Default;
-			this.btnHistorial.Image = ((System.Drawing.Image)(resources.GetObject("btnHistorial.Image")));
-			this.btnHistorial.Location = new System.Drawing.Point(490, 496);
-			this.btnHistorial.Name = "btnHistorial";
-			this.btnHistorial.Size = new System.Drawing.Size(62, 54);
-			this.btnHistorial.TabIndex = 16;
-			this.toolTip1.SetToolTip(this.btnHistorial, "Historial");
-			this.btnHistorial.UseVisualStyleBackColor = true;
+			this.btnRegresarAccion.Cursor = System.Windows.Forms.Cursors.Default;
+			this.btnRegresarAccion.Image = ((System.Drawing.Image)(resources.GetObject("btnRegresarAccion.Image")));
+			this.btnRegresarAccion.Location = new System.Drawing.Point(490, 496);
+			this.btnRegresarAccion.Name = "btnRegresarAccion";
+			this.btnRegresarAccion.Size = new System.Drawing.Size(62, 54);
+			this.btnRegresarAccion.TabIndex = 16;
+			this.toolTip1.SetToolTip(this.btnRegresarAccion, "Regresar Accion");
+			this.btnRegresarAccion.UseVisualStyleBackColor = true;
+			this.btnRegresarAccion.Click += new System.EventHandler(this.BtnRegresarAccionClick);
 			// 
 			// label5
 			// 
@@ -422,25 +423,27 @@ namespace PuntoVenta
 			this.btnDisminuir.UseVisualStyleBackColor = true;
 			this.btnDisminuir.Click += new System.EventHandler(this.BtnDisminuirClick);
 			// 
-			// button1
+			// btnGuardarVenta
 			// 
-			this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-			this.button1.Location = new System.Drawing.Point(354, 496);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(62, 54);
-			this.button1.TabIndex = 31;
-			this.toolTip1.SetToolTip(this.button1, "Guardar Venta");
-			this.button1.UseVisualStyleBackColor = true;
+			this.btnGuardarVenta.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarVenta.Image")));
+			this.btnGuardarVenta.Location = new System.Drawing.Point(354, 496);
+			this.btnGuardarVenta.Name = "btnGuardarVenta";
+			this.btnGuardarVenta.Size = new System.Drawing.Size(62, 54);
+			this.btnGuardarVenta.TabIndex = 31;
+			this.toolTip1.SetToolTip(this.btnGuardarVenta, "Guardar Venta");
+			this.btnGuardarVenta.UseVisualStyleBackColor = true;
+			this.btnGuardarVenta.Click += new System.EventHandler(this.BtnGuardarVentaClick);
 			// 
-			// button2
+			// btnAbrirVenta
 			// 
-			this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-			this.button2.Location = new System.Drawing.Point(422, 496);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(62, 54);
-			this.button2.TabIndex = 32;
-			this.toolTip1.SetToolTip(this.button2, "Abrir Venta");
-			this.button2.UseVisualStyleBackColor = true;
+			this.btnAbrirVenta.Image = ((System.Drawing.Image)(resources.GetObject("btnAbrirVenta.Image")));
+			this.btnAbrirVenta.Location = new System.Drawing.Point(422, 496);
+			this.btnAbrirVenta.Name = "btnAbrirVenta";
+			this.btnAbrirVenta.Size = new System.Drawing.Size(62, 54);
+			this.btnAbrirVenta.TabIndex = 32;
+			this.toolTip1.SetToolTip(this.btnAbrirVenta, "Abrir Venta");
+			this.btnAbrirVenta.UseVisualStyleBackColor = true;
+			this.btnAbrirVenta.Click += new System.EventHandler(this.BtnAbrirVentaClick);
 			// 
 			// label9
 			// 
@@ -513,8 +516,8 @@ namespace PuntoVenta
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.txtPago);
 			this.Controls.Add(this.label10);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.btnAbrirVenta);
+			this.Controls.Add(this.btnGuardarVenta);
 			this.Controls.Add(this.btnDisminuir);
 			this.Controls.Add(this.btnAumentar);
 			this.Controls.Add(this.label9);
@@ -528,7 +531,7 @@ namespace PuntoVenta
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.txtSubtotal);
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.btnHistorial);
+			this.Controls.Add(this.btnRegresarAccion);
 			this.Controls.Add(this.btnGuardar);
 			this.Controls.Add(this.btnAgregar);
 			this.Controls.Add(this.txtCodigoBarra);

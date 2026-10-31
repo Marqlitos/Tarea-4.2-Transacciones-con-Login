@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace PuntoVenta
 {
@@ -212,8 +213,10 @@ namespace PuntoVenta
 				}
 			}
 		}
+		
 		void BtnAgregarClick(object sender, EventArgs e)
 		{
+			//Logica de Agregar
 			string codigoEscaneado = txtCodigoBarra.Text.Trim();
 
 			if (string.IsNullOrWhiteSpace(codigoEscaneado))
@@ -226,16 +229,20 @@ namespace PuntoVenta
 			
 			formNuevo.ShowDialog();
 		}
+		
 		void TxtCodigoBarraKeyPress(object sender, KeyPressEventArgs e)
 		{
+			//La caja de texto detecta cuando el usuario da enter
 			if (e.KeyChar == (char)Keys.Enter)
 			{
 				e.Handled = true;
 				BuscarYAgregarProducto();
 			}
 		}
+		
 		void BtnBorrarClick(object sender, EventArgs e)
 		{
+			//Logica de boton de borrado
 			if (dataGridView1.CurrentRow != null)
 			{
 				if (!dataGridView1.CurrentRow.IsNewRow)
@@ -257,6 +264,7 @@ namespace PuntoVenta
 		
 		void BtnAumentarClick(object sender, EventArgs e)
 		{
+			//Boton de Aumentar Cantidad
 			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
 			{
 				int cantidad = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Cantidad"].Value);
@@ -273,6 +281,7 @@ namespace PuntoVenta
 		}
 		void BtnDisminuirClick(object sender, EventArgs e)
 		{
+			//Boton de Aumentar Cantidad
 			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
 			{
 				int cantidad = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Cantidad"].Value);
@@ -297,6 +306,7 @@ namespace PuntoVenta
 		}
 		void BtnBuscarClick(object sender, EventArgs e)
 		{
+			//Logica de boton Buscar
 			string nombreBuscado = txtBuscarNombre.Text.Trim();
 
 			if (string.IsNullOrWhiteSpace(nombreBuscado))
@@ -314,17 +324,15 @@ namespace PuntoVenta
 				{
 					conn.Open();
 					
-					// Usamos LIKE con % para buscar coincidencias parciales. LIMIT 1 trae el primer resultado que coincida.
 					string query = "SELECT clave, descripcion, precio FROM PRODUCTOS WHERE descripcion LIKE @nombre LIMIT 1";
 					
 					using (MySqlCommand cmd = new MySqlCommand(query, conn))
 					{
-						// Agregamos los comodines % al inicio y al final del texto buscado
 						cmd.Parameters.AddWithValue("@nombre", "%" + nombreBuscado + "%");
 						
 						using (MySqlDataReader reader = cmd.ExecuteReader())
 						{
-							if (reader.Read()) // Si encuentra un producto
+							if (reader.Read())
 							{
 								string clave = reader.GetString("clave");
 								string descripcion = reader.GetString("descripcion");
@@ -357,20 +365,130 @@ namespace PuntoVenta
 				}
 			}
 		}
+		
 		void BtnEditarClick(object sender, EventArgs e)
 		{
+			//Logica de editar objeto
 			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
 			{
-				// Obtenemos la clave de la fila seleccionada
 				string claveSeleccionada = dataGridView1.CurrentRow.Cells["Clave"].Value.ToString();
 
-				// Abrimos el formulario de edición pasándole esa clave
 				FormEditarProducto formEditar = new FormEditarProducto(claveSeleccionada);
 				formEditar.ShowDialog();
 			}
 			else
 			{
 				MessageBox.Show("Por favor, selecciona un producto de la lista para editarlo.", "Aviso");
+			}
+		}
+		void BtnGuardarVentaClick(object sender, EventArgs e)
+		{
+			//logica de guardar la venta
+			if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
+			{
+				MessageBox.Show("No hay productos en la lista para guardar.", "Aviso");
+				return;
+			}
+
+			try
+			{
+				string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				string rutaArchivo = Path.Combine(rutaEscritorio, "Historial_Ventas_AbarroTECNM.txt");
+
+				using (StreamWriter sw = new StreamWriter(rutaArchivo, true))
+				{
+					// Escribir el encabezado del ticket
+					sw.WriteLine("=========================================");
+					sw.WriteLine("AbarroTECNM - Registro de Venta");
+					sw.WriteLine("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+					sw.WriteLine("-----------------------------------------");
+					sw.WriteLine("CANT. | DESCRIPCIÓN | PRECIO | IMPORTE");
+					sw.WriteLine("-----------------------------------------");
+
+					foreach (DataGridViewRow fila in dataGridView1.Rows)
+					{
+						if (!fila.IsNewRow && fila.Cells["Importe"].Value != null)
+						{
+							string cantidad = fila.Cells["Cantidad"].Value.ToString();
+							string descripcion = fila.Cells["Descripcion"].Value.ToString();
+							string precio = fila.Cells["Precio"].Value.ToString();
+							string importe = fila.Cells["Importe"].Value.ToString();
+
+							// Formato de línea para cada producto
+							sw.WriteLine($"{cantidad}x {descripcion} - ${precio} = ${importe}");
+						}
+					}
+					sw.WriteLine("-----------------------------------------");
+					sw.WriteLine("Subtotal: $" + txtSubtotal.Text);
+					sw.WriteLine("IVA:      $" + txtIva.Text);
+					sw.WriteLine("TOTAL:    $" + txtTotal.Text);
+					sw.WriteLine("=========================================");
+					sw.WriteLine();
+				}
+
+				MessageBox.Show("Historial de venta guardado correctamente en tu Escritorio.", "Éxito");
+				
+				// LimpiarVenta();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error al guardar el archivo .txt: " + ex.Message, "Error");
+			}
+		}
+		void BtnAbrirVentaClick(object sender, EventArgs e)
+		{
+			//Logica de abrir Archivo
+			try
+			{
+				// Definir la misma ruta que usamos para guardar
+				string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				string rutaArchivo = Path.Combine(rutaEscritorio, "Historial_Ventas_AbarroTECNM.txt");
+
+				//Verificar si el archivo ya existe
+				if (File.Exists(rutaArchivo))
+				{
+					System.Diagnostics.Process.Start(rutaArchivo);
+				}
+				else
+				{
+					// Si el archivo no existe, le avisamos al usuario
+					MessageBox.Show("Aún no hay ningún historial de ventas guardado. Registra y guarda una venta primero.", "Archivo no encontrado");
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error al intentar abrir el historial: " + ex.Message, "Error");
+			}
+		}
+		void BtnRegresarAccionClick(object sender, EventArgs e)
+		{
+			//Logicca de regregar accion btn
+			int totalFilas = dataGridView1.Rows.Count;
+
+			if (totalFilas > 0)
+			{
+				// Identificamos el índice de la última fila de la tabla
+				int ultimoIndice = totalFilas - 1;
+
+				// Si esa última fila es el espacio en blanco que C# pone por defecto al final, retrocedemos un espacio
+				if (dataGridView1.Rows[ultimoIndice].IsNewRow)
+				{
+					ultimoIndice--;
+				}
+
+				// Si después de verificar hay un producto válido para borrar
+				if (ultimoIndice >= 0)
+				{
+					// Eliminamos la fila exacta usando su índice
+					dataGridView1.Rows.RemoveAt(ultimoIndice);
+					
+					// Recalculamos los totales para que la cuenta se ajuste
+					CalcularTotales();
+				}
+				else
+				{
+					MessageBox.Show("La lista ya está vacía, no hay acciones para deshacer.", "Deshacer");
+				}
 			}
 		}
 	}
