@@ -57,6 +57,10 @@
     <Compile Include="FormAgregarProducto.Designer.cs">
       <DependentUpon>FormAgregarProducto.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditarProducto.cs" />
+    <Compile Include="FormEditarProducto.Designer.cs">
+      <DependentUpon>FormEditarProducto.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FormAgregarProducto.resx">
       <DependentUpon>FormAgregarProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditarProducto.resx">
+      <DependentUpon>FormEditarProducto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

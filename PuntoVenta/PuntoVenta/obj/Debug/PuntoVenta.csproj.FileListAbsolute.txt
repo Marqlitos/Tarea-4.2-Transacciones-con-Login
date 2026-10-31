@@ -8,3 +8,4 @@ C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\ob
 C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.pdb
 C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\bin\Debug\MySql.Data.dll
 C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.FormAgregarProducto.resources
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.FormEditarProducto.resources

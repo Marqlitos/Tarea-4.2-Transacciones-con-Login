@@ -53,13 +53,13 @@ namespace PuntoVenta
 
 						using (MySqlDataReader reader = cmd.ExecuteReader())
 						{
-							if (reader.Read()) 
+							if (reader.Read())
 							{
 								string clave = reader.GetString("clave");
 								string descripcion = reader.GetString("descripcion");
 								decimal precio = reader.GetDecimal("precio");
 
-								int cantidad = 1; 
+								int cantidad = 1;
 								decimal importe = precio * cantidad;
 
 								dataGridView1.Rows.Add(clave, descripcion, cantidad, precio, importe);
@@ -230,8 +230,8 @@ namespace PuntoVenta
 		{
 			if (e.KeyChar == (char)Keys.Enter)
 			{
-				e.Handled = true; 
-				BuscarYAgregarProducto(); 
+				e.Handled = true;
+				BuscarYAgregarProducto();
 			}
 		}
 		void BtnBorrarClick(object sender, EventArgs e)
@@ -255,6 +255,123 @@ namespace PuntoVenta
 			}
 		}
 		
-		
+		void BtnAumentarClick(object sender, EventArgs e)
+		{
+			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
+			{
+				int cantidad = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Cantidad"].Value);
+				decimal precio = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Precio"].Value);
+				cantidad++;
+
+				dataGridView1.CurrentRow.Cells["Cantidad"].Value = cantidad;
+				dataGridView1.CurrentRow.Cells["Importe"].Value = precio * cantidad;
+
+				CalcularTotales();
+			}
+			
+			
+		}
+		void BtnDisminuirClick(object sender, EventArgs e)
+		{
+			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
+			{
+				int cantidad = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Cantidad"].Value);
+				decimal precio = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Precio"].Value);
+
+				
+				if (cantidad > 1)
+				{
+					cantidad--;
+
+					dataGridView1.CurrentRow.Cells["Cantidad"].Value = cantidad;
+					dataGridView1.CurrentRow.Cells["Importe"].Value = precio * cantidad;
+
+					CalcularTotales();
+				}
+				else
+				{
+					MessageBox.Show("La cantidad no puede ser menor a 1. Si el cliente ya no quiere el producto, usa el botón rojo de eliminar.", "Aviso");
+				}
+				
+			}
+		}
+		void BtnBuscarClick(object sender, EventArgs e)
+		{
+			string nombreBuscado = txtBuscarNombre.Text.Trim();
+
+			if (string.IsNullOrWhiteSpace(nombreBuscado))
+			{
+				MessageBox.Show("Escribe el nombre del producto que deseas buscar.", "Aviso");
+				return;
+			}
+
+			
+			string connectionString = "Server=localhost;Database=punto_venta;Uid=root;Pwd=root;SslMode=none;AllowPublicKeyRetrieval=True;";
+
+			using (MySqlConnection conn = new MySqlConnection(connectionString))
+			{
+				try
+				{
+					conn.Open();
+					
+					// Usamos LIKE con % para buscar coincidencias parciales. LIMIT 1 trae el primer resultado que coincida.
+					string query = "SELECT clave, descripcion, precio FROM PRODUCTOS WHERE descripcion LIKE @nombre LIMIT 1";
+					
+					using (MySqlCommand cmd = new MySqlCommand(query, conn))
+					{
+						// Agregamos los comodines % al inicio y al final del texto buscado
+						cmd.Parameters.AddWithValue("@nombre", "%" + nombreBuscado + "%");
+						
+						using (MySqlDataReader reader = cmd.ExecuteReader())
+						{
+							if (reader.Read()) // Si encuentra un producto
+							{
+								string clave = reader.GetString("clave");
+								string descripcion = reader.GetString("descripcion");
+								decimal precio = reader.GetDecimal("precio");
+								
+								int cantidad = 1;
+								decimal importe = precio * cantidad;
+
+								// Agregamos el producto al GRID
+								dataGridView1.Rows.Add(clave, descripcion, cantidad, precio, importe);
+
+								// Limpiamos la caja de búsqueda
+								txtBuscarNombre.Clear();
+
+								// Actualizamos los totales
+								CalcularTotales();
+							}
+							else
+							{
+								MessageBox.Show("No se encontró ningún producto con ese nombre.", "Búsqueda");
+								txtBuscarNombre.SelectAll();
+								txtBuscarNombre.Focus();
+							}
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error al buscar: " + ex.Message, "Error BD");
+				}
+			}
+		}
+		void BtnEditarClick(object sender, EventArgs e)
+		{
+			if (dataGridView1.CurrentRow != null && !dataGridView1.CurrentRow.IsNewRow)
+			{
+				// Obtenemos la clave de la fila seleccionada
+				string claveSeleccionada = dataGridView1.CurrentRow.Cells["Clave"].Value.ToString();
+
+				// Abrimos el formulario de edición pasándole esa clave
+				FormEditarProducto formEditar = new FormEditarProducto(claveSeleccionada);
+				formEditar.ShowDialog();
+			}
+			else
+			{
+				MessageBox.Show("Por favor, selecciona un producto de la lista para editarlo.", "Aviso");
+			}
+		}
 	}
 }

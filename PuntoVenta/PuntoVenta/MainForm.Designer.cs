@@ -24,7 +24,6 @@ namespace PuntoVenta
 		private System.Windows.Forms.Button btnEditar;
 		private System.Windows.Forms.Button btnBorrar;
 		private System.Windows.Forms.Button btnSalir;
-		private System.Windows.Forms.VScrollBar vScrollBar1;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button btnAgregar;
 		private System.Windows.Forms.Button btnGuardar;
@@ -55,6 +54,8 @@ namespace PuntoVenta
 		private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Importe;
+		private System.Windows.Forms.TextBox txtBuscarNombre;
+		private System.Windows.Forms.Label label12;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -86,10 +87,14 @@ namespace PuntoVenta
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Importe = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.btnEditar = new System.Windows.Forms.Button();
 			this.btnBorrar = new System.Windows.Forms.Button();
 			this.btnSalir = new System.Windows.Forms.Button();
-			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
 			this.label4 = new System.Windows.Forms.Label();
 			this.txtCodigoBarra = new System.Windows.Forms.TextBox();
 			this.btnAgregar = new System.Windows.Forms.Button();
@@ -115,11 +120,8 @@ namespace PuntoVenta
 			this.txtPago = new System.Windows.Forms.TextBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.txtCambio = new System.Windows.Forms.TextBox();
-			this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Importe = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.txtBuscarNombre = new System.Windows.Forms.TextBox();
+			this.label12 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -158,7 +160,7 @@ namespace PuntoVenta
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(361, 14);
+			this.label1.Location = new System.Drawing.Point(354, 11);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(121, 23);
 			this.label1.TabIndex = 4;
@@ -173,9 +175,9 @@ namespace PuntoVenta
 			"Transferencia",
 			"Vales de despensa",
 			"Cheque"});
-			this.comboBox2.Location = new System.Drawing.Point(488, 10);
+			this.comboBox2.Location = new System.Drawing.Point(501, 10);
 			this.comboBox2.Name = "comboBox2";
-			this.comboBox2.Size = new System.Drawing.Size(195, 24);
+			this.comboBox2.Size = new System.Drawing.Size(182, 24);
 			this.comboBox2.TabIndex = 5;
 			// 
 			// dateTimePicker1
@@ -197,24 +199,50 @@ namespace PuntoVenta
 			this.dataGridView1.Location = new System.Drawing.Point(185, 78);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 24;
-			this.dataGridView1.Size = new System.Drawing.Size(976, 396);
+			this.dataGridView1.Size = new System.Drawing.Size(1003, 396);
 			this.dataGridView1.TabIndex = 7;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1CellContentClick);
+			// 
+			// Clave
+			// 
+			this.Clave.HeaderText = "Clave";
+			this.Clave.Name = "Clave";
+			// 
+			// Descripcion
+			// 
+			this.Descripcion.HeaderText = "Descripcion";
+			this.Descripcion.Name = "Descripcion";
+			// 
+			// Cantidad
+			// 
+			this.Cantidad.HeaderText = "Cantidad";
+			this.Cantidad.Name = "Cantidad";
+			// 
+			// Precio
+			// 
+			this.Precio.HeaderText = "Precio";
+			this.Precio.Name = "Precio";
+			// 
+			// Importe
+			// 
+			this.Importe.HeaderText = "Importe";
+			this.Importe.Name = "Importe";
 			// 
 			// btnEditar
 			// 
 			this.btnEditar.Image = ((System.Drawing.Image)(resources.GetObject("btnEditar.Image")));
-			this.btnEditar.Location = new System.Drawing.Point(107, 174);
+			this.btnEditar.Location = new System.Drawing.Point(106, 150);
 			this.btnEditar.Name = "btnEditar";
 			this.btnEditar.Size = new System.Drawing.Size(62, 54);
 			this.btnEditar.TabIndex = 8;
 			this.toolTip1.SetToolTip(this.btnEditar, "Editar Producto");
 			this.btnEditar.UseVisualStyleBackColor = true;
+			this.btnEditar.Click += new System.EventHandler(this.BtnEditarClick);
 			// 
 			// btnBorrar
 			// 
 			this.btnBorrar.Image = ((System.Drawing.Image)(resources.GetObject("btnBorrar.Image")));
-			this.btnBorrar.Location = new System.Drawing.Point(15, 99);
+			this.btnBorrar.Location = new System.Drawing.Point(15, 78);
 			this.btnBorrar.Name = "btnBorrar";
 			this.btnBorrar.Size = new System.Drawing.Size(62, 54);
 			this.btnBorrar.TabIndex = 9;
@@ -232,13 +260,6 @@ namespace PuntoVenta
 			this.toolTip1.SetToolTip(this.btnSalir, "Salir / Cerrar programa");
 			this.btnSalir.UseVisualStyleBackColor = true;
 			this.btnSalir.Click += new System.EventHandler(this.Button1Click);
-			// 
-			// vScrollBar1
-			// 
-			this.vScrollBar1.Location = new System.Drawing.Point(1164, 78);
-			this.vScrollBar1.Name = "vScrollBar1";
-			this.vScrollBar1.Size = new System.Drawing.Size(24, 396);
-			this.vScrollBar1.TabIndex = 11;
 			// 
 			// label4
 			// 
@@ -271,7 +292,7 @@ namespace PuntoVenta
 			// btnGuardar
 			// 
 			this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
-			this.btnGuardar.Location = new System.Drawing.Point(106, 99);
+			this.btnGuardar.Location = new System.Drawing.Point(106, 78);
 			this.btnGuardar.Name = "btnGuardar";
 			this.btnGuardar.Size = new System.Drawing.Size(63, 54);
 			this.btnGuardar.TabIndex = 15;
@@ -292,7 +313,7 @@ namespace PuntoVenta
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(11, 395);
+			this.label5.Location = new System.Drawing.Point(12, 395);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(100, 23);
 			this.label5.TabIndex = 17;
@@ -300,14 +321,15 @@ namespace PuntoVenta
 			// 
 			// txtSubtotal
 			// 
-			this.txtSubtotal.Location = new System.Drawing.Point(106, 392);
+			this.txtSubtotal.Location = new System.Drawing.Point(107, 392);
 			this.txtSubtotal.Name = "txtSubtotal";
+			this.txtSubtotal.ReadOnly = true;
 			this.txtSubtotal.Size = new System.Drawing.Size(71, 22);
 			this.txtSubtotal.TabIndex = 18;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(11, 424);
+			this.label6.Location = new System.Drawing.Point(12, 424);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(89, 23);
 			this.label6.TabIndex = 20;
@@ -315,14 +337,14 @@ namespace PuntoVenta
 			// 
 			// textBox3
 			// 
-			this.textBox3.Location = new System.Drawing.Point(106, 421);
+			this.textBox3.Location = new System.Drawing.Point(107, 421);
 			this.textBox3.Name = "textBox3";
 			this.textBox3.Size = new System.Drawing.Size(72, 22);
 			this.textBox3.TabIndex = 21;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(11, 451);
+			this.label7.Location = new System.Drawing.Point(12, 455);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(100, 23);
 			this.label7.TabIndex = 22;
@@ -330,7 +352,7 @@ namespace PuntoVenta
 			// 
 			// txtIva
 			// 
-			this.txtIva.Location = new System.Drawing.Point(106, 452);
+			this.txtIva.Location = new System.Drawing.Point(107, 452);
 			this.txtIva.Name = "txtIva";
 			this.txtIva.Size = new System.Drawing.Size(72, 22);
 			this.txtIva.TabIndex = 23;
@@ -349,6 +371,7 @@ namespace PuntoVenta
 			this.txtTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtTotal.Location = new System.Drawing.Point(149, 508);
 			this.txtTotal.Name = "txtTotal";
+			this.txtTotal.ReadOnly = true;
 			this.txtTotal.Size = new System.Drawing.Size(167, 38);
 			this.txtTotal.TabIndex = 25;
 			// 
@@ -359,12 +382,13 @@ namespace PuntoVenta
 			// btnBuscar
 			// 
 			this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
-			this.btnBuscar.Location = new System.Drawing.Point(13, 174);
+			this.btnBuscar.Location = new System.Drawing.Point(15, 150);
 			this.btnBuscar.Name = "btnBuscar";
 			this.btnBuscar.Size = new System.Drawing.Size(64, 54);
 			this.btnBuscar.TabIndex = 26;
 			this.toolTip1.SetToolTip(this.btnBuscar, "Buscar Productos");
 			this.btnBuscar.UseVisualStyleBackColor = true;
+			this.btnBuscar.Click += new System.EventHandler(this.BtnBuscarClick);
 			// 
 			// btnCorte
 			// 
@@ -379,22 +403,24 @@ namespace PuntoVenta
 			// btnAumentar
 			// 
 			this.btnAumentar.Image = ((System.Drawing.Image)(resources.GetObject("btnAumentar.Image")));
-			this.btnAumentar.Location = new System.Drawing.Point(15, 299);
+			this.btnAumentar.Location = new System.Drawing.Point(15, 324);
 			this.btnAumentar.Name = "btnAumentar";
 			this.btnAumentar.Size = new System.Drawing.Size(64, 54);
 			this.btnAumentar.TabIndex = 29;
 			this.toolTip1.SetToolTip(this.btnAumentar, "Aumentar Cantidad de Producto");
 			this.btnAumentar.UseVisualStyleBackColor = true;
+			this.btnAumentar.Click += new System.EventHandler(this.BtnAumentarClick);
 			// 
 			// btnDisminuir
 			// 
 			this.btnDisminuir.Image = ((System.Drawing.Image)(resources.GetObject("btnDisminuir.Image")));
-			this.btnDisminuir.Location = new System.Drawing.Point(85, 299);
+			this.btnDisminuir.Location = new System.Drawing.Point(85, 324);
 			this.btnDisminuir.Name = "btnDisminuir";
 			this.btnDisminuir.Size = new System.Drawing.Size(64, 54);
 			this.btnDisminuir.TabIndex = 30;
 			this.toolTip1.SetToolTip(this.btnDisminuir, "Disminuir cantidad de Producto");
 			this.btnDisminuir.UseVisualStyleBackColor = true;
+			this.btnDisminuir.Click += new System.EventHandler(this.BtnDisminuirClick);
 			// 
 			// button1
 			// 
@@ -419,7 +445,7 @@ namespace PuntoVenta
 			// label9
 			// 
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label9.Location = new System.Drawing.Point(15, 257);
+			this.label9.Location = new System.Drawing.Point(15, 282);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(130, 39);
 			this.label9.TabIndex = 28;
@@ -460,36 +486,29 @@ namespace PuntoVenta
 			this.txtCambio.Size = new System.Drawing.Size(167, 27);
 			this.txtCambio.TabIndex = 36;
 			// 
-			// Clave
+			// txtBuscarNombre
 			// 
-			this.Clave.HeaderText = "Clave";
-			this.Clave.Name = "Clave";
+			this.txtBuscarNombre.Location = new System.Drawing.Point(12, 248);
+			this.txtBuscarNombre.Name = "txtBuscarNombre";
+			this.txtBuscarNombre.Size = new System.Drawing.Size(157, 22);
+			this.txtBuscarNombre.TabIndex = 37;
 			// 
-			// Descripcion
+			// label12
 			// 
-			this.Descripcion.HeaderText = "Descripcion";
-			this.Descripcion.Name = "Descripcion";
-			// 
-			// Cantidad
-			// 
-			this.Cantidad.HeaderText = "Cantidad";
-			this.Cantidad.Name = "Cantidad";
-			// 
-			// Precio
-			// 
-			this.Precio.HeaderText = "Precio";
-			this.Precio.Name = "Precio";
-			// 
-			// Importe
-			// 
-			this.Importe.HeaderText = "Importe";
-			this.Importe.Name = "Importe";
+			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label12.Location = new System.Drawing.Point(12, 222);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(157, 23);
+			this.label12.TabIndex = 38;
+			this.label12.Text = "Buscar Producto:";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1200, 558);
+			this.Controls.Add(this.label12);
+			this.Controls.Add(this.txtBuscarNombre);
 			this.Controls.Add(this.txtCambio);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.txtPago);
@@ -514,7 +533,6 @@ namespace PuntoVenta
 			this.Controls.Add(this.btnAgregar);
 			this.Controls.Add(this.txtCodigoBarra);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.vScrollBar1);
 			this.Controls.Add(this.btnSalir);
 			this.Controls.Add(this.btnBorrar);
 			this.Controls.Add(this.btnEditar);
