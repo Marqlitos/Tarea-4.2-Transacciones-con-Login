@@ -1,0 +1,10 @@
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\bin\Debug\PuntoVenta.exe.config
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\bin\Debug\PuntoVenta.exe
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\bin\Debug\PuntoVenta.pdb
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.csprojResolveAssemblyReference.cache
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.MainForm.resources
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.csproj.GenerateResource.Cache
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.exe
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.pdb
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\bin\Debug\MySql.Data.dll
+C:\Users\marco\OneDrive\Documents\SharpDevelop Projects\PuntoVenta\PuntoVenta\obj\Debug\PuntoVenta.FormAgregarProducto.resources
