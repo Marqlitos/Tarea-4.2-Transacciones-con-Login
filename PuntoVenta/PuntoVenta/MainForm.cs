@@ -101,7 +101,6 @@ namespace PuntoVenta
 		{
 			decimal subtotal = 0;
 			
-			// Sumar el importe de todos los productos en el GRID
 			foreach (DataGridViewRow fila in dataGridView1.Rows)
 			{
 				if (!fila.IsNewRow && fila.Cells["Importe"].Value != null)
@@ -110,23 +109,35 @@ namespace PuntoVenta
 				}
 			}
 
-			// Calcular IVA y Total
-			decimal iva = subtotal * 0.16m;
-			decimal total = subtotal + iva;
+			decimal descuento = 0;
+			if (!string.IsNullOrWhiteSpace(txtDescuento.Text))
+			{
+				decimal.TryParse(txtDescuento.Text, out descuento);
+			}
+
+			decimal subtotalConDescuento = subtotal - descuento;
+			if (subtotalConDescuento < 0) subtotalConDescuento = 0; 
+
+			decimal iva = subtotalConDescuento * 0.16m;
+			decimal total = subtotalConDescuento + iva;
 
 			txtSubtotal.Text = subtotal.ToString("0.00");
 			txtIva.Text = iva.ToString("0.00");
 			txtTotal.Text = total.ToString("0.00");
+			
+			txtCambio.Text = "0.00";
 		}
 		
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			
 		}
+		
 		void DataGridView1CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
 			
 		}
+		
 		void Button1Click(object sender, EventArgs e)
 		{
 			DialogResult respuesta = MessageBox.Show("¿Estás seguro de que deseas Salir?",
@@ -143,6 +154,7 @@ namespace PuntoVenta
 				MessageBox.Show("¡Operación cancelada!.", "¡Cancelado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
+		
 		void ToolTip1Popup(object sender, PopupEventArgs e)
 		{
 			
@@ -381,6 +393,7 @@ namespace PuntoVenta
 				MessageBox.Show("Por favor, selecciona un producto de la lista para editarlo.", "Aviso");
 			}
 		}
+		
 		void BtnGuardarVentaClick(object sender, EventArgs e)
 		{
 			//logica de guardar la venta
@@ -415,7 +428,7 @@ namespace PuntoVenta
 							string importe = fila.Cells["Importe"].Value.ToString();
 
 							// Formato de línea para cada producto
-							sw.WriteLine($"{cantidad}x {descripcion} - ${precio} = ${importe}");
+							sw.WriteLine(cantidad + "x " + descripcion + " - $" + precio + " = $" + importe);
 						}
 					}
 					sw.WriteLine("-----------------------------------------");
@@ -435,6 +448,7 @@ namespace PuntoVenta
 				MessageBox.Show("Error al guardar el archivo .txt: " + ex.Message, "Error");
 			}
 		}
+		
 		void BtnAbrirVentaClick(object sender, EventArgs e)
 		{
 			//Logica de abrir Archivo
@@ -460,6 +474,7 @@ namespace PuntoVenta
 				MessageBox.Show("Error al intentar abrir el historial: " + ex.Message, "Error");
 			}
 		}
+		
 		void BtnRegresarAccionClick(object sender, EventArgs e)
 		{
 			//Logicca de regregar accion btn
@@ -488,6 +503,89 @@ namespace PuntoVenta
 				else
 				{
 					MessageBox.Show("La lista ya está vacía, no hay acciones para deshacer.", "Deshacer");
+				}
+			}
+		}
+		
+		void BtnCorteClick(object sender, EventArgs e)
+		{
+			//Logica de boton de guardar Corte
+			string connectionString = "Server=localhost;Database=punto_venta;Uid=root;Pwd=root;SslMode=none;AllowPublicKeyRetrieval=True;";
+
+			using (MySqlConnection conn = new MySqlConnection(connectionString))
+			{
+				try
+				{
+					conn.Open();
+					string query = "SELECT COUNT(id_venta) AS NumeroVentas, SUM(total) AS TotalIngresos FROM VENTAS WHERE DATE(fecha) = CURDATE()";
+					
+					using (MySqlCommand cmd = new MySqlCommand(query, conn))
+					{
+						using (MySqlDataReader reader = cmd.ExecuteReader())
+						{
+							if (reader.Read())
+							{
+								int totalTickets = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+								decimal totalDinero = reader.IsDBNull(1) ? 0m : reader.GetDecimal(1);
+
+								string mensajeDeCorte =
+									"====== CORTE DE CAJA ======\n\n" +
+									"Fecha: " + DateTime.Now.ToString("dd/MM/yyyy") + "\n" +
+									"--------------------------------------\n" +
+									"Tickets cobrados hoy:  " + totalTickets + "\n" +
+									"Ingresos del día:         $" + totalDinero.ToString("0.00") + "\n\n" +
+									"===========================";
+
+								MessageBox.Show(mensajeDeCorte, "Corte del Día", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error al generar el corte de caja: " + ex.Message, "Error BD");
+				}
+			}
+		}
+		
+		void TextBox3KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)Keys.Enter)
+			{
+				e.Handled = true;
+				CalcularTotales();
+			}
+		}
+		
+		void TxtPagoKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)Keys.Enter)
+			{
+				e.Handled = true;
+
+				try
+				{
+					decimal total = Convert.ToDecimal(txtTotal.Text);
+					decimal pago = Convert.ToDecimal(txtPago.Text);
+
+					if (pago >= total)
+					{
+						decimal cambio = pago - total;
+						txtCambio.Text = cambio.ToString("0.00");
+						
+						btnGuardarVenta.Focus();
+					}
+					else
+					{
+						MessageBox.Show("El efectivo ingresado es menor al total a pagar.", "Faltan fondos");
+						txtCambio.Text = "0.00";
+						txtPago.SelectAll(); 
+					}
+				}
+				catch (Exception)
+				{
+					MessageBox.Show("Por favor, ingresa una cantidad numérica válida en el pago.", "Aviso");
+					txtPago.SelectAll();
 				}
 			}
 		}

@@ -30,7 +30,6 @@ namespace PuntoVenta
 		private System.Windows.Forms.Button btnRegresarAccion;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.ToolTip toolTip1;
@@ -56,6 +55,7 @@ namespace PuntoVenta
 		private System.Windows.Forms.DataGridViewTextBoxColumn Importe;
 		private System.Windows.Forms.TextBox txtBuscarNombre;
 		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.TextBox txtDescuento;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -103,7 +103,7 @@ namespace PuntoVenta
 			this.label5 = new System.Windows.Forms.Label();
 			this.txtSubtotal = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.txtDescuento = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.txtIva = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
@@ -332,16 +332,17 @@ namespace PuntoVenta
 			// 
 			this.label6.Location = new System.Drawing.Point(12, 424);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(89, 23);
+			this.label6.Size = new System.Drawing.Size(103, 23);
 			this.label6.TabIndex = 20;
 			this.label6.Text = "Descuento:";
 			// 
-			// textBox3
+			// txtDescuento
 			// 
-			this.textBox3.Location = new System.Drawing.Point(107, 421);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(72, 22);
-			this.textBox3.TabIndex = 21;
+			this.txtDescuento.Location = new System.Drawing.Point(107, 421);
+			this.txtDescuento.Name = "txtDescuento";
+			this.txtDescuento.Size = new System.Drawing.Size(72, 22);
+			this.txtDescuento.TabIndex = 21;
+			this.txtDescuento.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox3KeyPress);
 			// 
 			// label7
 			// 
@@ -400,6 +401,7 @@ namespace PuntoVenta
 			this.btnCorte.TabIndex = 27;
 			this.toolTip1.SetToolTip(this.btnCorte, "Corte / Total de ventas");
 			this.btnCorte.UseVisualStyleBackColor = true;
+			this.btnCorte.Click += new System.EventHandler(this.BtnCorteClick);
 			// 
 			// btnAumentar
 			// 
@@ -470,6 +472,7 @@ namespace PuntoVenta
 			this.txtPago.Name = "txtPago";
 			this.txtPago.Size = new System.Drawing.Size(167, 27);
 			this.txtPago.TabIndex = 34;
+			this.txtPago.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtPagoKeyPress);
 			// 
 			// label11
 			// 
@@ -527,7 +530,7 @@ namespace PuntoVenta
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.txtIva);
 			this.Controls.Add(this.label7);
-			this.Controls.Add(this.textBox3);
+			this.Controls.Add(this.txtDescuento);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.txtSubtotal);
 			this.Controls.Add(this.label5);
